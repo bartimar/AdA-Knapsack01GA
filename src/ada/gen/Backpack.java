@@ -13,10 +13,18 @@ public class Backpack {
 
     private double capacity;
     private Item[] items;
+    private static Backpack instance;
 
-    public Backpack(double capacity, Item[] items) {
+    private Backpack(double capacity, Item[] items) {
         this.capacity = capacity;
         this.items = items;
+    }
+    
+    public static Backpack getInstance(double capacity, Item[] items) {
+        if(instance==null) {
+           instance = new Backpack(capacity,items); 
+        }
+        return instance;
     }
 
     public double getCapacity() {

@@ -17,27 +17,30 @@ public class Fitness {
         this.bp = bp;
     }
 
-    public double getFitness(Individual gene) {
+    public static double getFitness(Individual gene, Backpack bp) {
         double fitness = 0, total_size = 0;
+        if(bp == null ) System.out.println("Backpack is NULL");
+                    
         for (int i = 0; i < gene.length(); i++) {
             if (gene.getItem(i)) {
                 if (total_size + bp.getSize(i) > bp.getCapacity()) {
-                    System.out.println("Backpack is full, size=" + total_size + ", value=" + fitness);
+                    //System.out.println("Backpack is full, size=" + total_size + ", value=" + fitness);
                     gene.regenerate();
-                    System.out.println("New gen=" + gene.toString());
+                    //System.out.println("New gen=" + gene.toString());
+                    i=-1;
+                    continue;
                 }
                 fitness += bp.getValue(i);
                 total_size += bp.getSize(i);
             }
         }
-
         return fitness;
     }
-
+ 
     public double CalcFitness(Population pop) {
         double fitness = 0;
         for (Individual gene : pop.getIndividuals()) {
-            fitness += getFitness(gene);
+            fitness += getFitness(gene,bp);
         }
         fitness /= pop.size();
         return fitness;
