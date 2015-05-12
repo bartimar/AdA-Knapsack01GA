@@ -21,7 +21,7 @@ public class AdAGen {
     public static void main(String[] args) throws IOException {
 
         Algorithm a = new Algorithm();
-        a.init();
+        a.init(args);
 
     }
 }

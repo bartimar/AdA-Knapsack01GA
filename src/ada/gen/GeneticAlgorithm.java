@@ -13,32 +13,33 @@ public class GeneticAlgorithm {
 
 
     /* GA parameters */
-    private static final double uniformRate = 0.5;
-    private static final double mutationRate = 0.1;
+    private static final double uniformRate = 0.1;
+    private double mutationRate;
     private static final int tournamentSize = 2;
-    private static final boolean elitism = false;
+    private int elitism;
+
+    public GeneticAlgorithm(double mutationRate, int elitism) {
+        this.mutationRate = mutationRate;
+        this.elitism = elitism;
+    }
 
     /* Public methods */
     // Evolve a population
-    public static Population evolvePopulation(Population pop) {
-        
+    public Population evolvePopulation(Population pop) {
+
         Population newPopulation = new Population(pop);
 
-        // Keep our best individual
-        if (elitism) {
-            //newPopulation.saveIndividual(0, pop.getFittest());
+        if (elitism > 0) {
+            Population elites = pop.getElite(elitism);
+            // Keep our best individual
+            for (Individual elite : elites.individuals) {
+                newPopulation.saveIndividual(elite);
+            }
         }
 
         // Crossover population
-        int elitismOffset;
-        if (elitism) {
-            elitismOffset = 1;
-        } else {
-            elitismOffset = 0;
-        }
-        // Loop over the population size and create new individuals with
-        // crossover
-        for (int i = elitismOffset; i < pop.size(); i++) {
+        // Loop over the population size and create new individuals with crossover
+        for (int i = elitism; i < pop.size(); i++) {
             Individual indiv1 = tournamentSelection(pop);
             Individual indiv2 = tournamentSelection(pop);
             Individual newIndiv = crossover(indiv1, indiv2);
@@ -46,7 +47,7 @@ public class GeneticAlgorithm {
         }
 
         // Mutate population
-        for (int i = elitismOffset; i < newPopulation.size(); i++) {
+        for (int i = elitism; i < newPopulation.size(); i++) {
             mutate(newPopulation.getIndividual(i));
         }
 
@@ -70,7 +71,7 @@ public class GeneticAlgorithm {
     }
 
     // Mutate an individual
-    private static void mutate(Individual indiv) {
+    private void mutate(Individual indiv) {
         // Loop through genes
         for (int i = 0; i < indiv.length(); i++) {
             if (Math.random() <= mutationRate) {

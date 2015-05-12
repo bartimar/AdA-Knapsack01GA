@@ -5,6 +5,8 @@
  */
 package ada.gen;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Marek
@@ -12,15 +14,15 @@ package ada.gen;
 public class Backpack {
 
     private double capacity;
-    private Item[] items;
+    private ArrayList<Item> items;
     private static Backpack instance;
 
-    private Backpack(double capacity, Item[] items) {
+    private Backpack(double capacity, ArrayList<Item> items) {
         this.capacity = capacity;
         this.items = items;
     }
     
-    public static Backpack getInstance(double capacity, Item[] items) {
+    public static Backpack getInstance(double capacity, ArrayList<Item> items) {
         if(instance==null) {
            instance = new Backpack(capacity,items); 
         }
@@ -35,20 +37,20 @@ public class Backpack {
         this.capacity = capacity;
     }
 
-    public Item[] getItems() {
+    public ArrayList<Item> getItems() {
         return items;
     }
 
-    public void setItems(Item[] items) {
+    public void setItems(ArrayList<Item> items) {
         this.items = items;
     }
 
     public double getSize(int index) {
-        return items[index].getSize();
+        return items.get(index).getSize();
     }
 
     public double getValue(int index) {
-        return items[index].getValue();
+        return items.get(index).getValue();
     }
 
     @Override

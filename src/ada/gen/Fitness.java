@@ -27,6 +27,7 @@ public class Fitness {
                     //System.out.println("Backpack is full, size=" + total_size + ", value=" + fitness);
                     gene.regenerate();
                     //System.out.println("New gen=" + gene.toString());
+                    fitness = total_size = 0;
                     i=-1;
                     continue;
                 }
@@ -34,7 +35,7 @@ public class Fitness {
                 total_size += bp.getSize(i);
             }
         }
-        return fitness;
+        return (double)Math.round(fitness * 10) / 10;
     }
  
     public double CalcFitness(Population pop) {
